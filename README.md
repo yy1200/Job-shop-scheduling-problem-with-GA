@@ -13,3 +13,12 @@ https://optimizizer.com/DMU.php
 ## 基因演算法(GA)
 首先藉由我們設計的編碼方式得出具隨機性質的初始解，以加速GA的收斂速度，接著透過二元競爭式選擇法挑選父代，以單點交配法產生子代，突變則是隨機選擇兩點進行交換。經過python套件—optunity優化最佳參數(交配率及突變率)，最後生成一組代表Job加工先後順序的最佳解。
 
+## Flexsim建模
+The Optimal Solution：將GA求出的解轉換為GA_solution，表依每台Workstation的Job加工順序排序。在各Buffer設定優先順序，並於各Workstation設計開關控制工件能依正確的加工順序處理。
+首先新增兩個table：
+1.	GA_solution (20x15) -- 列出Job在每個Workstation的加工順序。
+2.	Sequence (1x15) -- 用來存取各個Workstation分別加工到第幾個Job。
+    1. 在Workstation的Onreset設定一開始為關。
+    2. 若Buffer裡SendMessenge條件成立，表示GA_solution中的下一個該做工件已在等候，進而觸發OnEntry讓Sequence的該儲存格加1，使模型能繼續判斷下一個加工順序。
+    3. 當離開Workstation時，OnExit會判斷Buffer中最高rank的工件是否是下一個該加工的工件，如果是就打開Workstation，反之則關起來。
+    4. Buffer裡若有多個工件，以setrank函數排序，使工件依加工順序正確排列。
