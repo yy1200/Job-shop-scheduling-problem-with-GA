@@ -22,3 +22,11 @@ The Optimal Solution：將GA求出的解轉換為GA_solution，表依每台Works
     2. 若Buffer裡SendMessenge條件成立，表示GA_solution中的下一個該做工件已在等候，進而觸發OnEntry讓Sequence的該儲存格加1，使模型能繼續判斷下一個加工順序。
     3. 當離開Workstation時，OnExit會判斷Buffer中最高rank的工件是否是下一個該加工的工件，如果是就打開Workstation，反之則關起來。
     4. Buffer裡若有多個工件，以setrank函數排序，使工件依加工順序正確排列。
+
+## 排程結果之分析
+The Optimal Solution：為GA算出的最佳解，經過排除模擬模型中的各種錯誤後可得出題目最佳Makespan：3004。
+觀察rcmax的前三組數據可發現20_15_8與目標GAP值相差最小，從大小排序與機台利用率排序得知兩者並無關連，因GAP值為Workstation間的利用情況，而機台利用率為單一Workstation中的利用情況。即便兩者沒有直接的因果關係，但要得出距離目標更近的GAP值仍需讓機台利用率平均分配。
+另外，因cscmax問題較困難，故所求makespan較不理想，未來期望嘗試使用不同方法以縮短總完工時間。
+
+![image](https://github.com/yy1200/Job-shop-scheduling-problem-with-GA/assets/92247082/e6cee0fd-7e45-45e6-960f-b296f6d263a8)
+![image](https://github.com/yy1200/Job-shop-scheduling-problem-with-GA/assets/92247082/e3de3300-867d-4a7d-8c0b-8e3666996c65)
